@@ -1,4 +1,4 @@
-package project.project;
+package project.project.ExceptionSet;
 
 public class WrongUrlException extends RuntimeException{
     public WrongUrlException() {

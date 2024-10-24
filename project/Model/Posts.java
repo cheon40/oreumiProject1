@@ -1,20 +1,22 @@
-package project.project;
+package project.project.Model;
 
 import java.time.LocalDateTime;
 
 public class Posts {
-    String title;
-    String contents;
-    int BoardIndex;
-    String addTime;
-    String editTime;
+    private String title;
+    private String contents;
+    private String addTime;
+    private String editTime;
+    private int BoardIndex; //작성된 게시판의 id
+    private int uIdPosts; //작성한 유저의 id
 
-    public Posts(String title, String content, int BoardIndex, String editTime) {
+    public Posts(String title, String content, String editTime, int BoardIndex, int uIdPosts) {
         this.title = title;
         this.contents = content;
-        this.BoardIndex = BoardIndex;
         this.addTime = addTime = LocalDateTime.now().toString();
         this.editTime = editTime;
+        this.BoardIndex = BoardIndex;
+        this.uIdPosts = uIdPosts;
     }
 
     public String getTitle() {
@@ -25,12 +27,20 @@ public class Posts {
         return addTime;
     }
 
+    public String getContents() {
+        return contents;
+    }
+
     public int getBoardIndex() {
         return BoardIndex;
     }
 
     public void setContents(String contents) {
         this.contents = contents;
+    }
+
+    public String getEditTime() {
+        return editTime;
     }
 
     public void setEditTime(String editTime) {
