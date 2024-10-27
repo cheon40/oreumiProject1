@@ -28,8 +28,8 @@ public class Container {
     public List<Posts> getPostContainer() {
         return postContainer;
     }
-    public void newPost(String title, String content, String editTime, int BoardIndex, int uIdPosts) {
-        Posts newPost = new Posts(title, content, editTime, BoardIndex, uIdPosts);
+    public void newPost(String title, String content, String editTime, String BoardName, int uIdPosts) {
+        Posts newPost = new Posts(title, content, editTime, BoardName, uIdPosts);
         postContainer.add(newPost);
     }
 
@@ -37,8 +37,8 @@ public class Container {
     public List<Accounts> getAccountContainer() {
         return accountContainer;
     }
-    public void newAccount(String id, String password, String nickName, String editDate, String level) {
-        Accounts newAccount = new Accounts(id, password, nickName, editDate, level);
+    public void newAccount(String id, String password, String nickName, String favoriteTeam,String editDate, String level) {
+        Accounts newAccount = new Accounts(id, password, nickName, favoriteTeam, editDate, level);
         accountContainer.add(newAccount);
     }
 

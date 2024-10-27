@@ -11,11 +11,13 @@ import java.util.Scanner;
 public class YaguRoute {
 
     public static void main(String[] args) {
-        Boards testBoard1 = new Boards("키움");
-        Accounts account1 = new Accounts("rudcjs","0502", "조경천", "1234", "admin");
-        Posts testPost1 = new Posts("공지","키움 게시판 공지","1234",0,0);
+        Boards testBoard1 = new Boards("자유");
+        Boards testBoard2 = new Boards("키움");
+        Accounts account1 = new Accounts("rudcjs","0502", "조경천", "키움","1234", "admin");
+        Posts testPost1 = new Posts("공지","키움 게시판 공지","1234","키움",0);
 
         BoardCommands.boardsList.add(testBoard1);
+        BoardCommands.boardsList.add(testBoard2);
         PostCommands.postsList.add(testPost1);
         AccountCommands.accountsList.add(account1);
 
@@ -28,7 +30,9 @@ public class YaguRoute {
             if(Session.getIsLoggedIn()){
                 System.out.print(Session.getuName());
                 if (Session.getIsAdmin()){
-                    System.out.print("(관리자)");
+                    System.out.print(" (관리자)");
+                } else {
+                    System.out.print(" ("+Session.getuTeam()+")");
                 }
                 System.out.print(" > ");
             } else {

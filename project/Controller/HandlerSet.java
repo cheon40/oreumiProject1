@@ -1,6 +1,7 @@
 package project.project.Controller;
 
 import project.project.Model.Request;
+import project.project.Model.Session;
 
 import java.util.Map;
 import java.util.Objects;
@@ -23,7 +24,8 @@ public class HandlerSet {
             System.out.println("명령어를 확인해주세요.");
         }
     }
-    //핸들러
+
+    //보드핸들러
     public static void boardHandler(String inputFunction, Map<String,String>inputParameter, Scanner sc ){
         if(Objects.equals(inputFunction, "add")){
             //게시판생성
@@ -44,11 +46,11 @@ public class HandlerSet {
             System.out.println(inputFunction+"에 해당하는 기능이 없습니다.");
         }
     }
-    //핸들러
+    //포스트핸들러
     public static void postHandler(String inputFunction, Map<String,String> inputParameter, Scanner sc ){
         if(Objects.equals(inputFunction, "add")){
             //게시글 생성
-            createPost(sc, inputParameter);
+            createPost(inputParameter, sc);
         } else if (Objects.equals(inputFunction, "edit")) {
             //게시글 수정
             updatePost(inputParameter, sc);
@@ -61,8 +63,9 @@ public class HandlerSet {
         } else{
             System.out.println(inputFunction+"에 해당하는 기능이 없습니다.");
         }
+
     }
-    //핸들러
+    //어카운트핸들러
     public static void accountHandler(String inputFunction, Map<String,String> inputParameter, Scanner sc){
         if(Objects.equals(inputFunction, "signup")){
             //회원가입

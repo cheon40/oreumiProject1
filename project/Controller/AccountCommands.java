@@ -2,7 +2,6 @@ package project.project.Controller;
 
 import project.project.Model.Accounts;
 import project.project.Model.Container;
-import project.project.Model.Request;
 import project.project.Model.Session;
 
 import java.time.LocalDateTime;
@@ -24,8 +23,10 @@ public class AccountCommands {
             String inputPw = sc.nextLine();
             System.out.print("사용할 닉네임 > ");
             String inputNn = sc.nextLine();
+            System.out.print("응원하는 팀 > ");
+            String inputTeam = sc.nextLine();
             String nowTime = LocalDateTime.now().toString();
-            container.newAccount(inputId, inputPw, inputNn, nowTime, "normal");
+            container.newAccount(inputId, inputPw, inputNn, inputTeam,nowTime, "normal");
             System.out.println("회원가입 성공!");
         } else {
             System.out.println("회원가입은 로그아웃 상태에서 가능합니다.");
@@ -34,7 +35,7 @@ public class AccountCommands {
     //계정등급 변경
     public static void changeLevel(Map<String, String> inputIndex){
         //파라미터확인
-        if(checkInputIndex(inputIndex)){
+        if(checkPara(inputIndex)){
             String readAccountId = inputIndex.get("accountId");
             //관리자 확인
             if(Session.getIsAdmin()) {
@@ -69,6 +70,7 @@ public class AccountCommands {
                     flag = true;
                     Session.setIsLoggedIn(true);
                     Session.setuIdSession(i);
+                    Session.setuTeam(accountsList.get(i).getFavoriteTeam());
                     Session.setuName(accountsList.get(i).getNickName());
                     System.out.println(accountsList.get(i).getNickName()+"님 환영합니다.");
                     //권한 부여
@@ -96,6 +98,7 @@ public class AccountCommands {
             Session.setIsLoggedIn(false);
             Session.setIsAdmin(false);
             Session.setIsMember(false);
+            Session.setuTeam("");
             System.out.println("로그아웃 되었습니다.");
         } else {
             System.out.println("이미 로그아웃 상태입니다.");
@@ -104,7 +107,7 @@ public class AccountCommands {
     //회원정보
     public static void detailAccount(Map<String, String> inputIndex) {
         //파라키터확인
-        if(checkInputIndex(inputIndex)){
+        if(checkPara(inputIndex)){
             String readAccountId = inputIndex.get("accountId");
             try{
                 String s = readAccountId.replaceAll("[^0-9]", "");
@@ -113,10 +116,12 @@ public class AccountCommands {
                 String inputId = accounts.getId();
                 String inputNn = accounts.getNickName();
                 String inputSD = accounts.getSignUpDate();
+                String inputTm = accounts.getFavoriteTeam();
                 System.out.println(index + "번 회원");
                 System.out.println("계정 : " + inputId);
                 System.out.println("닉네임 : " + inputNn);
                 System.out.println("가입일 : " + inputSD);
+                System.out.println("응원하는 팀 : " + inputTm);
             } catch (IndexOutOfBoundsException e){
                 System.out.println(readAccountId+"번 회원은 존재하지 않습니다.");
             }
@@ -126,7 +131,7 @@ public class AccountCommands {
     //관리자 혹은 본인
     public static void editAccount(Map<String, String> inputIndex, Scanner sc) {
         //파라미터확인
-        if(checkInputIndex(inputIndex)){
+        if(checkPara(inputIndex)){
             String readAccountId = inputIndex.get("accountId");
             String s = readAccountId.replaceAll("[^0-9]", "");
             int index = Integer.parseInt(s);
@@ -139,26 +144,32 @@ public class AccountCommands {
                     String inputPw = sc.nextLine();
                     System.out.print("닉네임 > ");
                     String inputNn = sc.nextLine();
+                    System.out.print("응원하는 팀 > ");
+                    String inputTm = sc.nextLine();
                     String nowTime = LocalDateTime.now().toString();
                     accountsList.get(index).setPassword(inputPw);
                     accountsList.get(index).setNickName(inputNn);
+                    accountsList.get(index).setFavoriteTeam(inputTm);
                     accountsList.get(index).setEditDate(nowTime);
                     System.out.println(readAccountId + "번 계정이 성공적으로 수정되었습니다!");
                     System.out.println("보안을 위해 로그아웃 됩니다.");
                     signOutAccount();
                 } else if (Session.getIsAdmin()) {
-                    System.out.println(readAccountId +"번 계정의 정보를 수정합니다.");
+                    System.out.println(readAccountId +"번 계정의 정보를 수정합니다.(관리자)");
                     System.out.print("비밀번호 > ");
                     String inputPw = sc.nextLine();
                     System.out.print("닉네임 > ");
                     String inputNn = sc.nextLine();
+                    System.out.print("응원하는 팀 > ");
+                    String inputTm = sc.nextLine();
                     String nowTime = LocalDateTime.now().toString();
                     accountsList.get(index).setPassword(inputPw);
                     accountsList.get(index).setNickName(inputNn);
+                    accountsList.get(index).setFavoriteTeam(inputTm);
                     accountsList.get(index).setEditDate(nowTime);
                     System.out.println(readAccountId + "번 계정이 성공적으로 수정되었습니다!");
                 } else {
-                        System.out.println("권한이 없습니다.");
+                    System.out.println("권한이 없습니다.");
                 }
             } else {
                 try {
@@ -173,7 +184,7 @@ public class AccountCommands {
     //관리자 혹은 본인
     public static void removeAccount(Map<String, String> inputIndex) {
         //파라미터확인
-        if(checkInputIndex(inputIndex)) {
+        if(checkPara(inputIndex)) {
             String readAccountId = inputIndex.get("accountId");
             String s = readAccountId.replaceAll("[^0-9]", "");
             int index = Integer.parseInt(s);
@@ -203,12 +214,10 @@ public class AccountCommands {
             } else {
                 System.out.println("로그인 이후 가능합니다.");
             }
-            System.out.println(index);
-            System.out.println(Session.getuIdSession());
         }
     }
     //파라미터확인
-    private static boolean checkInputIndex(Map<String, String> inputIndex){
+    private static boolean checkPara(Map<String, String> inputIndex){
         String readInput = inputIndex.get("accountId");
         if(readInput != null){
             return true;

@@ -7,15 +7,15 @@ public class Posts {
     private String contents;
     private String addTime;
     private String editTime;
-    private int BoardIndex; //작성된 게시판의 id
+    private String BoardName; //작성된 게시판의 이름
     private int uIdPosts; //작성한 유저의 id
 
-    public Posts(String title, String content, String editTime, int BoardIndex, int uIdPosts) {
+    public Posts(String title, String content, String editTime, String BoardName, int uIdPosts) {
         this.title = title;
         this.contents = content;
         this.addTime = addTime = LocalDateTime.now().toString();
         this.editTime = editTime;
-        this.BoardIndex = BoardIndex;
+        this.BoardName = BoardName;
         this.uIdPosts = uIdPosts;
     }
 
@@ -31,8 +31,8 @@ public class Posts {
         return contents;
     }
 
-    public int getBoardIndex() {
-        return BoardIndex;
+    public String getBoardName() {
+        return BoardName;
     }
 
     public void setContents(String contents) {

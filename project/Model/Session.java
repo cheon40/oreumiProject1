@@ -5,6 +5,7 @@ public class Session extends Request{
     private static boolean isAdmin = false;
     private static int uIdSession;
     private static String uName;
+    private static String uTeam = "";
 
     public Session(String function) {
         super(function);
@@ -40,5 +41,13 @@ public class Session extends Request{
 
     public static void setuName(String uName) {
         Session.uName = uName;
+    }
+
+    public static String getuTeam() {
+        return uTeam;
+    }
+
+    public static void setuTeam(String uTeam) {
+        Session.uTeam = uTeam;
     }
 }
